@@ -814,3 +814,93 @@ start2:
 main endp                ; End of main procedure.
 
 end main                  ; End of the program.
+
+--------------------------------------------------------------------------------------------------------------------------------
+; ***************Sum of Odd & Even of the Natural Number Series********************************
+Manual 5:
+
+include 'emu8086.inc'
+.stack 100h
+.model small
+
+.data
+    array db 5 dup(?)
+
+.code
+
+main proc
+    
+    mov   ax, @data
+    mov   ds, ax
+
+    mov   si, offset array
+    mov   cx, 5
+    
+    print 'Enter 5 Digits of Natural Number Series: '
+    
+start: 
+    mov   ah, 01h
+    int   21h
+
+    sub   al, 48 
+
+    mov   [si], al
+
+    inc   si
+    mov dl,32
+    mov ah,02
+    int 21h
+    loop start 
+    
+    mov si, offset array
+    mov cx,5
+    odd:
+    add bl,[si]
+    inc si
+    inc si
+    loop odd
+    
+    call nL
+    
+    Print 'Sum of Odd Numbers: '
+    mov dl,bl
+    add dl,48
+    mov ah,02
+    int 21h  
+    
+    mov si, offset array
+    mov cx,5
+    xor bl,bl
+    even:
+    inc si
+    add bl,[si]
+    inc si
+   
+    loop even
+     
+     call nL
+    
+    Print 'Sum of Even Numbers: '
+    mov dl,bl
+    add dl,48
+    mov ah,02
+    int 21h
+    
+    mov ah,4ch
+    int 21h
+
+
+main endp
+
+   nL proc
+    mov dl,13
+    mov ah,02
+    int 21h  
+    
+    mov dl,10
+    mov ah,02
+    int 21h
+    ret
+    nL endp
+    
+end main
