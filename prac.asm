@@ -904,3 +904,116 @@ main endp
     nL endp
     
 end main
+--------------------------------------------------------------------------------------------------------------------------------
+*****Calculator********************************
+include 'emu8086.inc' 
+.stack 100h
+.model small
+
+.data
+ 
+ a db ?
+ b db ?
+
+
+.code
+
+
+main proc 
+    mov ax, @data
+    mov ds,ax
+    
+    print 'Enter First Number'
+    
+    mov ah,01
+    int 21h
+    
+    mov a,al
+    sub a,48   
+     call nl
+    print 'Enter Second Number'
+    
+    mov ah,01
+    int 21h
+    
+    sub al,48
+    mov b,al 
+    
+    mov al,a
+    mov bl,b
+    add bl,al
+     call nl
+    print 'Summation: '
+     mov dl,bl
+     add dl,48
+     mov ah,02
+     int 21h 
+     
+       call nl
+    print 'Substraction: ' 
+    xor al,al
+    xor bl,bl
+    
+    mov al,a
+    mov bl,b
+    sub al,bl
+    
+     mov dl,al
+     add dl,48
+     mov ah,02
+     int 21h   
+     
+       call nl
+    print 'division: ' 
+    xor ax,ax
+    xor bx,bx
+    
+    mov al,a
+    mov bl,b
+    div bl
+    
+     mov dl,al
+     add dl,48
+     mov ah,02
+     int 21h     
+     
+           call nl
+    print 'Multiplication: ' 
+    xor ax,ax
+    xor bx,bx
+    
+    mov al,a
+    mov bl,b
+    mul bl
+    
+     mov dl,al
+     add dl,48
+     mov ah,02
+     int 21h 
+     
+     
+     
+     
+     
+     mov ah,4ch
+     int 21h
+    
+    
+    
+    
+    
+    
+    
+    main endp 
+
+nl proc
+    mov dl,13
+    mov ah,02
+    int 21h 
+    
+    mov dl,10
+    mov ah,02
+    int 21h 
+    ret
+    nl endp
+end main
